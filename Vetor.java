@@ -32,11 +32,11 @@ public class Vetor<T extends Comparable<T>> {
 	}
 
 	public void setComparadorMaximo(ComparadorMaximo compMax) {
-		this.comparadorMaximo = compMax;
+		this.comparadorMaximo = (Comparator<T>) compMax;
 	}
 
 	public void setComparadorMinimo(ComparadorMinimo compMin) {
-		this.comparadorMinimo = compMin;
+		this.comparadorMinimo = (Comparator<T>) compMin;
 	}
 
 	// Insere um objeto no vetor
@@ -47,15 +47,24 @@ public class Vetor<T extends Comparable<T>> {
 	}
 
 	// Remove um objeto do vetor
-	public T remover() {
-		T obj = this.arrayInterno[this.indice];
-		this.arrayInterno[this.indice] = null;
-		int i = this.indice;
-		while (i < this.arrayInterno.length - 1){
-			this.arrayInterno[i] = this.arrayInterno[i + 1];
-			i++;
+	public T remover(T o) {
+		// a procura se darah usando o equals o tipo T (precisa ser
+		// sobrescrito). a remocao
+		// nao deixa buracos no array
+		T result = null;
+		boolean achou = false;
+		int i = 0;
+		while (i <= indice && !achou) {
+			if (arrayInterno[i].equals(o)) {
+				result = arrayInterno[i];
+				arrayInterno[i] = arrayInterno[indice];
+				arrayInterno[indice] = null;
+				indice--;
+				achou = true;
 			}
-		return obj;
+			i++;
+		}
+		return result;
 	}
 
 	// Procura um elemento no vetor
@@ -82,8 +91,8 @@ public class Vetor<T extends Comparable<T>> {
 	// Diz se o vetor está cheio
 	public boolean isCheio() {
 		boolean full = false;
-		for (int i = 0; i < this.arrayInterno.length; i++){
-			if (this.arrayInterno[i] != null){
+		for (int i = 0; i < this.arrayInterno.length; i++) {
+			if (this.arrayInterno[i] != null) {
 				full = true;
 			}
 		}
