@@ -1,2 +1,0 @@
-# LEDA
-roteiros
